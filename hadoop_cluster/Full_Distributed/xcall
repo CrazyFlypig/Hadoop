@@ -1,0 +1,29 @@
+#!/usr/bin/python
+import os,sys
+from getpass import getuser
+def getHostnames(fpath):
+	if fpath == None:
+		exit()
+	hostnames = []
+	with open(fpath,'r') as slaves:
+		for line in slaves:
+			hostnames.append(line.strip())
+	return hostnames
+def getUser():
+        user = getuser()
+        return user
+if __name__ == '__main__' :
+	if len(sys.argv) == 1:
+		print "No Argurments"
+		exit()
+	command = os.popen("whereis "+sys.argv[1]).read().split(":")[1].split(" ")[1].strip()
+	if len(sys.argv) > 2 :
+		for arg in sys.argv[1:] :
+			command=command+  arg+ ' '
+	user = getUser()
+	hostnames = getHostnames('/usr/local/hadoop/etc/hadoop/slaves')
+	print os.popen(command).read()
+	for hostname in hostnames:
+		print "--------"+hostname+"--------------"
+		print "ssh "+user+"@"+hostname+" "+command
+		print os.popen("ssh "+user+"@"+hostname+" "+command).read()	
