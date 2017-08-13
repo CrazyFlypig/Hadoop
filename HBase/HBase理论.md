@@ -89,7 +89,7 @@
 * 每个 Store 由一个memStore 和零个或多个StoreFile组成
 * StoreFile以Hfile的格式存储在HDFS上，这些文件是B树结构
 ### 客户端更新操作流程
-* 线连接有关的HRegionServer，然后向 Region 提交变更
+* 先连接有关的HRegionServer，然后向 Region 提交变更
 * 提交数据首先写入WAL和MemStore
 * 当MemStore中的数据量达到某个阈值，Hregionserver会启动flashcache 进程写入 StoreFile
 * 当StoreFile文件数量增长到一定阈值后，系统会将多个StoreFile进行合并，在合并过程中会进行版本呢合并和删除工作，形成更大StoreFile
