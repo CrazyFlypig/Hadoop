@@ -69,4 +69,11 @@
 2. 启动JN守护进程后，对两个NN节点在disk-meta上进行同步。情况有三：
     *. a)如果搭建全新的HDFS集群，先在其中一个NN上格式化（`hdfs namenode -format`);
     *. b)如果已经格式化了NN，或者从非HA转换成HA，需要复制NN的元数据目录到另一个，在未格式化的NN上运行命令：`hdfs namenode -bootstartStandby`，该命令的作用是确保JN包含足够多的编辑日志能够启动两个NN。
-    *. c)如果正在转换非HA NN到HA的NN，需要运行`hdfs namenode -initializeSharedEdits`命令，该命令会
+    *. c)如果正在转换非HA NN到HA的NN，需要运行`hdfs namenode -initializeSharedEdits`命令，该命令会用本地的编辑日志目录初始化JN。
+3. 单独启动NN,通过webUI查看状态，初始时都是standby状态。
+## 管理命令
+* hdfs haadmin -help
+1. transitionToActive/transitionToStandby，切换状态
+2. failover，initiate a failover between two NameNodes
+3. getServiceState，查询服务状态
+4. checkHealth，健康检查
